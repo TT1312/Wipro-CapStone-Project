@@ -2,100 +2,127 @@ package Test;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-
 import com.google.common.io.Files;
-
 import base.BaseClass;
 import pages.CheckoutPage;
 import pages.HomePage;
 import pages.LoginPage;
 
 public class MainTest extends BaseClass {
-	
 
-	@Test
-	public void TestingFunctionalities() throws InterruptedException, IOException {
-		LoginPage loginpage = new LoginPage(driver);
-		HomePage homepage = new HomePage(driver);
-		CheckoutPage checkoutpage = new CheckoutPage(driver);
+	 @Test
+	    public void TestingFunctionalities() throws InterruptedException, IOException {
+	        LoginPage loginpage = new LoginPage(driver);
+	        HomePage homepage = new HomePage(driver);
+	        CheckoutPage checkoutpage = new CheckoutPage(driver);
 
-		loginpage.login(config.getProperty("username"), config.getProperty("password"));
-		Thread.sleep(2000);
-		ScreenShots();
-		
-		homepage.selectSamsung();
-		Thread.sleep(2000);
-		
+	        test.info("Logging in with valid credentials");
+	        loginpage.login(config.getProperty("username"), config.getProperty("password"));
+	        Thread.sleep(2000);
+	        takeScreenshot("Login Successful");
+	        test.pass("Login successful");
 
-		homepage.sortByLowestPrice();
-		Thread.sleep(2000);
+	        test.info("Selecting Samsung category");
+	        homepage.selectSamsung();
+	        Thread.sleep(2000);
+	        test.pass("Samsung category selected");
 
-		homepage.addToFavorites();
-		Thread.sleep(2000);
+	        test.info("Sorting by lowest price");
+	        homepage.sortByLowestPrice();
+	        Thread.sleep(2000);
+	        test.pass("Sorted by lowest price");
 
-		homepage.checkFavorites();
-		Thread.sleep(2000);
-		driver.navigate().back();
+	        test.info("Adding item to favorites");
+	        homepage.addToFavorites();
+	        Thread.sleep(2000);
+	        test.pass("Item added to favorites");
 
-		homepage.addToCart();
-		Thread.sleep(2000);
+	        test.info("Checking favorite items");
+	        homepage.checkFavorites();
+	        Thread.sleep(2000);
+	        driver.navigate().back();
+	        test.pass("Favorite items checked");
 
-		homepage.increaseQuantity();
-		Thread.sleep(2000);
+	        test.info("Adding item to cart");
+	        homepage.addToCart();
+	        Thread.sleep(2000);
+	        test.pass("Item added to cart");
 
-		homepage.decreaseQuantity();
-		Thread.sleep(2000);
+	        test.info("Increasing item quantity");
+	        homepage.increaseQuantity();
+	        Thread.sleep(2000);
+	        test.pass("Item quantity increased");
 
-		homepage.proceedToCheckout();
-		Thread.sleep(2000);
+	        test.info("Decreasing item quantity");
+	        homepage.decreaseQuantity();
+	        Thread.sleep(2000);
+	        test.pass("Item quantity decreased");
 
-		checkoutpage.fillShippingDetails(config.getProperty("firstname"), config.getProperty("lastname"),
-				config.getProperty("address"), config.getProperty("state"), config.getProperty("postalCode"));
-		Thread.sleep(2000);
-		ScreenShots();
+	        test.info("Proceeding to checkout");
+	        homepage.proceedToCheckout();
+	        Thread.sleep(2000);
+	        test.pass("Proceeded to checkout");
 
-		checkoutpage.downloadReciept();
-		Thread.sleep(2000);
+	        test.info("Filling in shipping details");
+	        checkoutpage.fillShippingDetails(config.getProperty("firstname"), config.getProperty("lastname"),
+	                config.getProperty("address"), config.getProperty("state"), config.getProperty("postalCode"));
+	        Thread.sleep(2000);
+	        takeScreenshot("Shipping Details Filled");
+	        test.pass("Shipping details filled");
 
-		checkoutpage.continueShopping();
-		Thread.sleep(2000);
+	        test.info("Downloading receipt");
+	        checkoutpage.downloadReciept();
+	        Thread.sleep(2000);
+	        test.pass("Receipt downloaded");
 
-		homepage.viewMyOrders();
-		Thread.sleep(2000);
-		ScreenShots();
+	        test.info("Continuing shopping");
+	        checkoutpage.continueShopping();
+	        Thread.sleep(2000);
+	        test.pass("Continued shopping");
 
-		driver.navigate().back();
-		Thread.sleep(2000);
+	        test.info("Viewing my orders");
+	        homepage.viewMyOrders();
+	        Thread.sleep(2000);
+	        takeScreenshot("My Orders");
+	        test.pass("My orders viewed");
 
-		homepage.logout();
-	}
+	        driver.navigate().back();
+	        Thread.sleep(2000);
 
-	@Test
-	public void testInvalidLogin() {
-		
-		LoginPage loginPage = new LoginPage(driver);
+	        test.info("Logging out");
+	        homepage.logout();
+	        test.pass("Logged out");
+	    }
 
-		loginPage.getSignInButton().click();
-		loginPage.getUsernameField().sendKeys("invalidUser");
-		loginPage.getUsernameField().sendKeys(Keys.RETURN);
-		loginPage.getPasswordField().sendKeys("invalidPassword");
-		loginPage.getPasswordField().sendKeys(Keys.RETURN);
-		loginPage.getLoginButton().click();
+	    @Test
+	    public void testInvalidLogin() {
+	        LoginPage loginPage = new LoginPage(driver);
 
-		WebElement errorMessage = loginPage.getErrorMessage();
-		System.out.println(errorMessage.isDisplayed());
+	        test.info("Attempting login with invalid credentials");
+	        loginPage.getSignInButton().click();
+	        loginPage.getUsernameField().sendKeys("invalidUser");
+	        loginPage.getUsernameField().sendKeys(Keys.RETURN);
+	        loginPage.getPasswordField().sendKeys("invalidPassword");
+	        loginPage.getPasswordField().sendKeys(Keys.RETURN);
+	        loginPage.getLoginButton().click();
 
-	}
-	public void ScreenShots() throws IOException {
-		File f = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		Files.copy(f, new File("./ScreenShots/"+"Alert-"+System.currentTimeMillis()+".png"));
-		System.out.println("Screenshot Successfully added to Images");
-	}
-		
+	        WebElement errorMessage = loginPage.getErrorMessage();
+	        if (errorMessage.isDisplayed()) {
+	            test.pass("Error message displayed as expected");
+	        } else {
+	            test.fail("Error message not displayed");
+	        }
+	    }
+
+	    public void takeScreenshot(String stepDescription) throws IOException {
+	        File f = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+	        String screenshotPath = "./ScreenShorts/" + stepDescription + "-" + System.currentTimeMillis() + ".png";
+	        Files.copy(f, new File(screenshotPath));
+	        test.addScreenCaptureFromPath(screenshotPath, stepDescription);
+	    }
 }

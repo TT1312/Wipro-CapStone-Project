@@ -5,9 +5,10 @@
     <classes>
       <class name="Test.MainTest">
         <methods>
+          <include name="tearDown"/>
           <include name="TestingFunctionalities"/>
           <include name="setUp"/>
-          <include name="testInvalidLogin"/>
+          <include name="initConfig"/>
         </methods>
       </class> <!-- Test.MainTest -->
     </classes>

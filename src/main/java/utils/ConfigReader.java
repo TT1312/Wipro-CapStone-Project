@@ -12,7 +12,7 @@ public class ConfigReader {
 		try {
 			properties = new Properties();
 			FileInputStream file = new FileInputStream(
-					"C:\\Users\\Administrator\\eclipse-workspace\\Project\\src\\main\\java\\config.properties");
+					"C:\\Users\\HP\\eclipse-workspace\\Wipro2\\src\\main\\java\\config.properties");
 			properties.load(file);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -23,3 +23,4 @@ public class ConfigReader {
 		return properties.getProperty(key);
 	}
 }
+//C:\\Users\\Administrator\\eclipse-workspace\\Project\\src\\main\\java\\config.properties
