@@ -31,7 +31,7 @@ public class BaseClass
     public void initConfig()
     {
     	config = new ConfigReader();
-    	//ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter("extentReport.html");
+    	
     	htmlReporter = new ExtentSparkReporter("extentReport.html");
         htmlReporter.config().setTheme(Theme.STANDARD);
         htmlReporter.config().setDocumentTitle("Automation Report");
@@ -46,7 +46,7 @@ public class BaseClass
     public void setUp() {
         
         String browser = config.getProperty("browser");
-        test = extent.createTest("TestMethodName");
+        
         switch (browser.toLowerCase()) {
             case "chrome":
                 driver = new ChromeDriver();

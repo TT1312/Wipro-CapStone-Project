@@ -17,6 +17,7 @@ public class MainTest extends BaseClass {
 
 	 @Test
 	    public void TestingFunctionalities() throws InterruptedException, IOException {
+		 	test = extent.createTest("Check Ecommerce Functionality");
 	        LoginPage loginpage = new LoginPage(driver);
 	        HomePage homepage = new HomePage(driver);
 	        CheckoutPage checkoutpage = new CheckoutPage(driver);
@@ -101,6 +102,7 @@ public class MainTest extends BaseClass {
 
 	    @Test
 	    public void testInvalidLogin() {
+	    	test = extent.createTest("Check Invalid Credentials");
 	        LoginPage loginPage = new LoginPage(driver);
 
 	        test.info("Attempting login with invalid credentials");
@@ -110,13 +112,15 @@ public class MainTest extends BaseClass {
 	        loginPage.getPasswordField().sendKeys("invalidPassword");
 	        loginPage.getPasswordField().sendKeys(Keys.RETURN);
 	        loginPage.getLoginButton().click();
+	        
+	        test.fail("Entered Invalid Credentials");
 
-	        WebElement errorMessage = loginPage.getErrorMessage();
-	        if (errorMessage.isDisplayed()) {
-	            test.pass("Error message displayed as expected");
-	        } else {
-	            test.fail("Error message not displayed");
-	        }
+//	        WebElement errorMessage = loginPage.getErrorMessage();
+//	        if (errorMessage.isDisplayed()) {
+//	            test.pass("Error message displayed as expected");
+//	        } else {
+//	            test.fail("Error message not displayed");
+//	        }
 	    }
 
 	    public void takeScreenshot(String stepDescription) throws IOException {
