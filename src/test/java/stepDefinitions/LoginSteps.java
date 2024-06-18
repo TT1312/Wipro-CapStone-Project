@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
+import java.util.List;
 
-public class LoginSteps 
-{
+public class LoginSteps {
 
     WebDriver driver;
 
@@ -38,20 +38,27 @@ public class LoginSteps
         loginButton.click();
     }
 
-    @Then("I should be logged in successfully")
-    public void i_should_be_logged_in_successfully() {
+    @Then("I should see an error message")
+    public void i_should_see_an_error_message() {
         WebElement errorMsg = driver.findElement(By.className("api-error"));
         if (errorMsg.isDisplayed()) {
-            System.out.println("Login failed");
+            System.out.println("Error message displayed: Login failed");
         } else {
-            System.out.println("Login successful");
+            System.out.println("Error message not displayed");
         }
         driver.quit();
     }
+
+    @Then("I should be logged in successfully")
+    public void i_should_be_logged_in_successfully() {
+        
+        List<WebElement> errorMsgs = driver.findElements(By.className("api-error"));
+        if (errorMsgs.isEmpty()) {
+            System.out.println("Login successful");
+        } else {
+            System.out.println("Login failed");
+        }
+        driver.quit();
+    }
+
 }
-
-
-
-
-
-

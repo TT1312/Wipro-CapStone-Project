@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class HomePage {
-	WebDriver driver;
+    private WebDriver driver;
 
     @FindBy(xpath = "//span[normalize-space()='Samsung']")
     WebElement samsungButton;
@@ -83,5 +83,15 @@ public class HomePage {
 
     public void logout() {
         logoutButton.click();
+    }
+
+    // Getter method for addFavorite button
+    public WebElement getAddFavoriteButton() {
+        return addFavorite;
+    }
+
+    // Getter method for addToCart button
+    public WebElement getAddToCartButton() {
+        return addToCartButton;
     }
 }

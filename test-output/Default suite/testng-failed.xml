@@ -6,9 +6,9 @@
       <class name="Test.MainTest">
         <methods>
           <include name="tearDown"/>
+          <include name="TestingFunctionalities"/>
           <include name="setUp"/>
           <include name="initConfig"/>
-          <include name="testInvalidLogin"/>
           <include name="tearDownSuite"/>
         </methods>
       </class> <!-- Test.MainTest -->

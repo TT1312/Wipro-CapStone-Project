@@ -23,4 +23,3 @@ public class ConfigReader {
 		return properties.getProperty(key);
 	}
 }
-//C:\\Users\\Administrator\\eclipse-workspace\\Project\\src\\main\\java\\config.properties

@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage {
-	WebDriver driver;
+	private WebDriver driver;
 
 	By signInButton = By.id("signin");
 	By usernameField = By.id("react-select-2-input");
