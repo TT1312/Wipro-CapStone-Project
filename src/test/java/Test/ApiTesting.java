@@ -1,40 +1,46 @@
 package Test;
 
-import static io.restassured.RestAssured.given;
-
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
-import io.restassured.response.Response;
+import base.BaseClass;
 
-public class ApiTesting {
+import static io.restassured.RestAssured.given;
 
-    @Test
-    public void testGetStatusCode() {
-        // Create a test in the Extent report or any other reporting mechanism if needed
-        // For this example, assume a simple logging mechanism
-        
-        System.out.println("Running API test to check status code");
+public class ApiTesting extends BaseClass{
 
-        // Retrieve the base URI from the configuration
-        String baseUri = "https://api.example.com"; // replace with your actual base URI
-        String endpoint = "/orders"; // Replace with your actual endpoint
 
-        // Send the GET request and get the response
-        Response response = given()
-                                .baseUri(baseUri)
-                            .when()
-                                .get(endpoint)
-                            .then()
-                                .extract().response();
+	    @Test
+	    public void testGetStatusCode() {
+	        // Create a test in the Extent report
+	        test = extent.createTest("Check API Status Code");
 
-        // Get the status code from the response
-        int statusCode = response.getStatusCode();
+	        // Retrieve the base URI from the configuration
+	        String baseUri = config.getProperty("BaseUrl");
+	        String endpoint = "/favourites"; // Replace with your actual endpoint
+	        
+	        // Log the info about the GET request
+	        test.info("Sending GET request to " + baseUri + endpoint);
 
-        // Log the result
-        if (statusCode == 200) {
-            System.out.println("API responded with status code 200");
-        } else {
-            System.out.println("API responded with status code " + statusCode);
-        }
-    }
+	        // Send the GET request and get the response
+	        Response response = given()
+	                                .baseUri(baseUri)
+	                            .when()
+	                                .get(endpoint)
+	                            .then()
+	                                .extract().response();
+
+	        // Get the status code from the response
+	        int statusCode = response.getStatusCode();
+
+	        // Assert the status code and log the result in the Extent report
+	        if (statusCode == 200) {
+	            test.pass("API responded with status code 200");
+	        } else {
+	            test.fail("API responded with status code " + statusCode);
+	        }
+	    }
+	
+
+
 }
